@@ -47,8 +47,10 @@ namespace OmniSharp.Tests
         public static OmnisharpWorkspace CreateSimpleWorkspace(string source, string fileName = "dummy.cs")
         {
             var workspace = new OmnisharpWorkspace();
-
-            var projectInfo = ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(),
+            
+            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+            var projectId = ProjectId.CreateNewId();
+            var projectInfo = ProjectInfo.Create(projectId, VersionStamp.Create(),
                 "ProjectName", "AssemblyName", LanguageNames.CSharp);
 
             var document = DocumentInfo.Create(DocumentId.CreateNewId(projectInfo.Id), fileName,
@@ -57,6 +59,7 @@ namespace OmniSharp.Tests
                 fileName);
 
             workspace.AddProject(projectInfo);
+            workspace.AddMetadataReference(projectId, mscorlib);
             workspace.AddDocument(document);
             return workspace;
         }
@@ -75,7 +78,7 @@ namespace OmniSharp.Tests
             var symbols = new List<ISymbol>();
             foreach(var quickfix in quickFixes)
             {
-                symbols.Add(await TestHelpers.SymbolFromQuickFix(workspace, quickfix)); 
+                symbols.Add(await SymbolFromQuickFix(workspace, quickfix)); 
             }
             return symbols;
         }

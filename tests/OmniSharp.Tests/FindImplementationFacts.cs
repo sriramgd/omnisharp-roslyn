@@ -72,7 +72,7 @@ namespace OmniSharp.Tests
         public async void CanFindSubclassForTypeNotInSource()
         {
             var source = @"
-                public class SomeClass : str$ing {}";
+                public class SomeClass : System.Str$ing {}";
 
             var implementations = await FindImplementations(source);
             var implementation = implementations.First();
