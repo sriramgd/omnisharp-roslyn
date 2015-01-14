@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using System.IO;
 
 namespace OmniSharp.AspNet5
 {
@@ -44,19 +45,19 @@ namespace OmniSharp.AspNet5
                 testsToRun = symbol.ContainingNamespace + "." + testsToRun;
             }
 
-            string testCommand = null;
-
+            string kCommand = Path.Combine(_context.RuntimePath, "bin", "k");
+            
             switch (testContext.TestCommandType)
             {
                 case TestCommandType.All:
-                    testCommand = "k test";
+                    kCommand = kCommand + " test";
                     break;
                 case TestCommandType.Single:
                 case TestCommandType.Fixture:
-                    testCommand = "k test --test " + testsToRun;
+                    kCommand = kCommand + " test --test " + testsToRun;
                     break;
             }
-            return testCommand;
+            return kCommand;
         }
     }
 }

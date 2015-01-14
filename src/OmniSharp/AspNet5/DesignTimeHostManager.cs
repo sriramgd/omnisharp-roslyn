@@ -35,7 +35,7 @@ namespace OmniSharp.AspNet5
                 }
 
                 int port = GetFreePort();
-
+                
                 var psi = new ProcessStartInfo
                 {
                     FileName = Path.Combine(runtimePath, "bin", "klr"),
@@ -68,7 +68,7 @@ namespace OmniSharp.AspNet5
                     _logger.WriteError(string.Format("Failed to launch DesignTimeHost. Process exited with code {0}.", _designTimeHostProcess.ExitCode));
                     return;
                 }
-
+                
                 _logger.WriteInformation(string.Format("Running DesignTimeHost on port {0}, with PID {1}", port, _designTimeHostProcess.Id));
 
                 _designTimeHostProcess.EnableRaisingEvents = true;
